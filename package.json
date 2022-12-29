@@ -1,0 +1,26 @@
+{
+  "name": "proyectofinal1",
+  "version": "1.0.0",
+  "description": "Primer entrega proyecto final",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niniatura/proyectoFinalBackendCoder1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Niniatura/proyectoFinalBackendCoder1/issues"
+  },
+  "homepage": "https://github.com/Niniatura/proyectoFinalBackendCoder1#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "uuid": "^9.0.0"
+  }
+}
