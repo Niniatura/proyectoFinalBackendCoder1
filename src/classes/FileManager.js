@@ -5,7 +5,7 @@ class FileManager{
     this.filePath = filePath;
     }
     
-    async getProducts() {
+    async getAll() {
         try {
           const data = await fs.promises.readFile(this.filePath);
           return JSON.parse(data);
@@ -22,7 +22,10 @@ class FileManager{
         }
       }
     
-      async getProductById(id) {
+    
+}
+class ProductFileManager extends FileManager {
+    async getProductById(id) {
         try {
           const data = await fs.promises.readFile(this.filePath);
           this.products = JSON.parse(data);
@@ -36,9 +39,7 @@ class FileManager{
           throw err;
         }
       }
-    
-}
-class ProductFileManager extends FileManager {
+
     async add(product) {
         try {
           const products = await this.getAll();
@@ -49,5 +50,25 @@ class ProductFileManager extends FileManager {
           throw err;
         }
       }
+
+     
 }
-export {FileManager, ProductFileManager};
+
+class cartFileManager extends FileManager { 
+
+      async getCartById(id) {
+        try {
+          const data = await fs.promises.readFile(this.filePath);
+          this.carts = JSON.parse(data);
+          const cart = this.carts.find((cart) => cart.id === id);
+          if(cart){
+            return cart;
+          }else{
+            return res.status(404).send('No hay carrito con ese id');
+          }
+        } catch (err) {
+          throw err;
+        }
+      }
+}
+export {FileManager, ProductFileManager, cartFileManager};
