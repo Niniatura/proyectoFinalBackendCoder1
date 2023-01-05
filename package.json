@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Niniatura/proyectoFinalBackendCoder1#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "express-handlebars": "^6.0.6",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
   }
