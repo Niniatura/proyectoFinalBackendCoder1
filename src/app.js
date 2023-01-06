@@ -31,6 +31,7 @@ app.use(express.json());
 //   res.send("hola mundo");
 // });
 app.get("/api/products", pruebaRouter);
+app.post("/", productsRouter);
 
 
 // const httpServer = app.listen(PORT, () => {
