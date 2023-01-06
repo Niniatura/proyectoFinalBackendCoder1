@@ -31,17 +31,20 @@ app.use(express.json());
 //   res.send("hola mundo");
 // });
 app.get("/api/products", pruebaRouter);
-app.post("/", productsRouter);
-
-
-// const httpServer = app.listen(PORT, () => {
-//     console.log(`Servidor corriendo en puerto ${PORT}`);
-//     console.log("iniciado con socket.io");
-// });
-socketServer.on("connection", (socket) =>{
+app.post("/", pruebaRouter, function (req, res) {
+  socketServer.on("connection", (socket) =>{
   console.log("nuevo cliente conectado");
-  socket.emit("message", "Bienvenido!");
+  socket.emit(products);
   socket.on("message", (products)=>{
-    // console.log("productos en el listado"+products)
+    console.log("productos en el listado")
   })
-})
+})})
+
+
+// socketServer.on("connection", (socket) =>{
+//   console.log("nuevo cliente conectado");
+//   socket.emit("message", "Bienvenido!");
+//   socket.on("message", (products)=>{
+//     // console.log("productos en el listado"+products)
+//   })
+// })

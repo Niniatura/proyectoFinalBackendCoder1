@@ -33,11 +33,9 @@ const pruebaRouter = productsRouter.get("/api/products", async (req, res, render
             return res.send(products.slice(0, limit));
         
         }
-        // res.status(200).render("home", {
-        //    products
-        //   });;
-        // res.send(products)
+        
         return res.status(200).render('home',{ title: products });
+
     } catch (err) {
         return res.status(500).send(err.message);
     }
