@@ -6,7 +6,7 @@ import path from "path";
 import {fileURLToPath} from 'url';
 import { productsLists } from "./productList/productList.js";
 import { Server } from 'socket.io';
-import pruebaRouter from './routes/views.router.js';
+import { pruebaRouter} from './routes/views.router.js';
 
 const app = express();
 const router = express.Router();
@@ -27,19 +27,24 @@ app.use(express.urlencoded({extended: true} ));
 app.use(express.json());
 
 // app.use("/api/carts", cartRouter);
-// app.get("/", (req, res) =>{
+// app.get("/realtimeproducts", (req, res) =>{
 //   res.send("hola mundo");
 // });
-app.get("/api/products", pruebaRouter);
+// app.get("/realtimeproducts", realTimeRouter);
 app.post("/", pruebaRouter, function (req, res) {
   socketServer.on("connection", (socket) =>{
-  console.log("nuevo cliente conectado");
+    console.log("nuevo cliente conectado");
   socket.emit(products);
-  socket.on("message", (products)=>{
-    console.log("productos en el listado")
   })
-})})
+})
+app.get("/api/products", pruebaRouter);
 
+app.get('/realtimeproducts', pruebaRouter, function (req, res) {
+  socketServer.on("connection", (socket) =>{
+    console.log("nuevo cliente conectado realtime");
+  socket.emit(products);
+  })
+});
 
 // socketServer.on("connection", (socket) =>{
 //   console.log("nuevo cliente conectado");

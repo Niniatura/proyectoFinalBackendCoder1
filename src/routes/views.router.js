@@ -41,6 +41,24 @@ const pruebaRouter = productsRouter.get("/api/products", async (req, res, render
     }
 
 });
+productsRouter.get("/realtimeproducts", async (req, res, render) => {
+    const { limit } = req.query;
+
+    try {
+        const products = await fileManager.getAll();
+
+        if (limit) {
+            return res.send(products.slice(0, limit));
+        
+        }
+        
+        return res.status(200).render('realTimeProducts',{ title: products });
+
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+
+});
 
 productsRouter.get("/:pid", async (req, res) => {
     const { pid } = req.params;
@@ -71,6 +89,9 @@ productsRouter.post("/", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
+
+
 
 productsRouter.put("/:pid", async (req, res) => {
     const { pid } = req.params;
@@ -113,4 +134,7 @@ productsRouter.put("/:pid", async (req, res) => {
     }
   });
 
-export default productsRouter;
+  
+
+
+export {pruebaRouter};
