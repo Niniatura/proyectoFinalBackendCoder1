@@ -4,9 +4,8 @@ import cartRouter from "./routes/cart.router.js";
 import { engine } from "express-handlebars";
 import path from "path";
 import {fileURLToPath} from 'url';
-import { productsLists } from "./productList/productList.js";
 import { Server } from 'socket.io';
-import { pruebaRouter} from './routes/views.router.js';
+import { pruebaRouter, pruebaRouter2} from './routes/views.router.js';
 
 const app = express();
 const router = express.Router();
@@ -26,15 +25,11 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true} ));
 app.use(express.json());
 
-// app.use("/api/carts", cartRouter);
-// app.get("/realtimeproducts", (req, res) =>{
-//   res.send("hola mundo");
-// });
-// app.get("/realtimeproducts", realTimeRouter);
+
 app.post("/", pruebaRouter, function (req, res) {
   socketServer.on("connection", (socket) =>{
     console.log("nuevo cliente conectado");
-  socket.emit(products);
+    socket.emit(products);
   })
 })
 app.get("/api/products", pruebaRouter);
@@ -46,10 +41,26 @@ app.get('/realtimeproducts', pruebaRouter, function (req, res) {
   })
 });
 
-// socketServer.on("connection", (socket) =>{
-//   console.log("nuevo cliente conectado");
-//   socket.emit("message", "Bienvenido!");
-//   socket.on("message", (products)=>{
-//     // console.log("productos en el listado"+products)
-//   })
-// })
+app.post("/realtimeproducts", pruebaRouter2, (req, res) => {
+  const { newProduct } = req.body;
+
+  socketServer.emit("message", newProduct);
+  products.push(newProduct);
+  res.send(newProduct);
+});
+
+socketServer.on("connection", (socket) => {
+  console.log("Nuevo cliente conectado!");
+  socket.emit("message", "Bienvenido al servidor!");
+  socket.on("message", (data) => {
+    console.log(data);
+  });
+
+  socket.on("newProduct", (newProduct) => {
+    console.log(newProduct);
+    products.push(newProduct);
+
+    socket.emit("product", products);
+  });
+});
+

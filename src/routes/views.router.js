@@ -41,18 +41,18 @@ const pruebaRouter = productsRouter.get("/api/products", async (req, res, render
     }
 
 });
-productsRouter.get("/realtimeproducts", async (req, res, render) => {
+productsRouter.get("/realtimeproducts", async (req, res) => {
     const { limit } = req.query;
 
     try {
-        const products = await fileManager.getAll();
+        const data = await fileManager.getAll();
 
         if (limit) {
             return res.send(products.slice(0, limit));
         
         }
         
-        return res.status(200).render('realTimeProducts',{ title: products });
+        return res.status(200).render('realTimeProducts',{ title: data });
 
     } catch (err) {
         return res.status(500).send(err.message);
@@ -90,6 +90,23 @@ productsRouter.post("/", async (req, res) => {
   }
 });
 
+const pruebaRouter2 = productsRouter.post("/realtimeproducts", async (req, res) => {
+    const newProduct = {
+        id:v4(),
+       ...req.body
+    }
+    
+    try {
+    const products = await fileManager.getAll();
+
+    await fileManager.writeAll([...products, newProduct]);
+    res.send(newProduct);
+    res.status(200).render('realTimeProducts',{ title: data, message:'hola' });
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 
 
@@ -137,4 +154,4 @@ productsRouter.put("/:pid", async (req, res) => {
   
 
 
-export {pruebaRouter};
+export {pruebaRouter,pruebaRouter2};

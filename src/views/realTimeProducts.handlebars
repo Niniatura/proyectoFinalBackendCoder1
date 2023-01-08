@@ -1,5 +1,9 @@
-<input type="text" placeholder="nombre producto">
 
+
+<div id="template">
+<input type="text" placeholder="nombre producto" name="product" id="product">
+<button id="send" type="button" class="btn btn-primary">Enviar</button>
+<h3>{{message}}</h3>
 <h2>
     {{#each title}}
     <div>
@@ -7,4 +11,6 @@
     </div>
     {{/each}}
 </h2>
+<div id="product">{{ newProduct }}</div>
+</div>
 {{!-- <h1>Hola</h1> --}}
