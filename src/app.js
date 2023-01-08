@@ -6,6 +6,7 @@ import path from "path";
 import {fileURLToPath} from 'url';
 import { Server } from 'socket.io';
 import { pruebaRouter, pruebaRouter2} from './routes/views.router.js';
+import "./js/index.js"
 
 const app = express();
 const router = express.Router();
@@ -41,13 +42,18 @@ app.get('/realtimeproducts', pruebaRouter, function (req, res) {
   })
 });
 
-app.post("/realtimeproducts", pruebaRouter2, (req, res) => {
-  const { newProduct } = req.body;
-
-  socketServer.emit("message", newProduct);
-  products.push(newProduct);
-  res.send(newProduct);
-});
+app.post("/realtimeproducts", pruebaRouter2, function (req, res) {
+  socketServer.on("connection", (socket) =>{
+    console.log("nuevo cliente conectado");
+    socket.emit(products);
+  })
+  socketServer.on("connection", (socket) => {
+  console.log("Nuevo cliente conectado!");
+  socket.emit("message", "Bienvenido al servidor!");
+  socket.on("message", (data) => {
+    console.log(data);
+  });
+  })})
 
 socketServer.on("connection", (socket) => {
   console.log("Nuevo cliente conectado!");
@@ -56,11 +62,11 @@ socketServer.on("connection", (socket) => {
     console.log(data);
   });
 
-  socket.on("newProduct", (newProduct) => {
-    console.log(newProduct);
-    products.push(newProduct);
+  socket.on("newProduct", (data) => {
+    console.log('pusheando producto');
+    products.push(data);
 
-    socket.emit("product", products);
+    socket.emit(products);
   });
 });
 

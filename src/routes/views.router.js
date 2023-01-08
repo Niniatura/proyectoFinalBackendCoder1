@@ -52,7 +52,8 @@ productsRouter.get("/realtimeproducts", async (req, res) => {
         
         }
         
-        return res.status(200).render('realTimeProducts',{ title: data });
+        res.status(200).render('realTimeProducts',{ title: data });
+       
 
     } catch (err) {
         return res.status(500).send(err.message);
@@ -101,6 +102,7 @@ const pruebaRouter2 = productsRouter.post("/realtimeproducts", async (req, res) 
 
     await fileManager.writeAll([...products, newProduct]);
     res.send(newProduct);
+    const template = render('realTimeProducts',{ title: data });
     res.status(200).render('realTimeProducts',{ title: data, message:'hola' });
 
   } catch (err) {
